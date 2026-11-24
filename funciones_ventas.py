@@ -32,20 +32,48 @@ def seleccionar_metodo_pago():
             print("Opción inválida. Seleccione 1 o 2.")
         #Fin-if
     #Fin-while
-    return metodo_pago = ""
+    return metodo_pago 
 
 def calcular_totales(subtotal, metodo_pago):
     """Calcula IVA, descuento y total final. Retorna el total_final."""
     # TODO 2: Calcula monto_iva (19%) y total_iva.
     monto_iva = subtotal * 0.19
-    total_iva_cliente = subtotal + monto_iva
+    total_iva = subtotal + monto_iva
 
     # TODO 3: Si metodo_pago == "1", aplica 5% de descuento sobre total_iva.
     if metodo_pago == "1":
-        descuento = total_iva_cliente*0.05
+        descuento = total_iva *0.05
         print("Descuento por efectivo (5%): ", descuento)
     #fin-if  
     
+    total_final= total_iva - descuento
     # TODO 4: Imprime el detalle de la boleta usando imprimir_separador()
     imprimir_separador()
+    print("--- Boleta ---")
+    print("Subtotal: ", subtotal)
+    print("Monto IVA: ", monto_iva)
+    print("Total Cliente (+IVA): ", total_iva)
+    print("Total Final (+IVA): ", total_final)
 
+    # TODO 5: Clasifica si es 'Venta Alta' (> 15000) o 'Venta Habitual'.
+    if total_final > 15000:
+        print("Clasificada como Venta Alta")
+    else:
+        print("Clasificada como Venta Habitual")
+    # fin-if
+    print("---")
+    monto_total_diario = monto_total_diario + total_final
+
+    # TODO 6: Retorna el total_final calculado.
+    return total_final 
+    pass
+def procesar_venta():
+    """Orquesta el flujo completo de una venta y retorna el monto final."""
+    subtotal = ingresar_productos()
+    if subtotal == 0:
+        print("Venta cancelada (monto $0).")
+        return 0.0
+    
+    metodo = seleccionar_metodo_pago()
+    total_venta = calcular_totales(subtotal, metodo)
+    return total_venta
